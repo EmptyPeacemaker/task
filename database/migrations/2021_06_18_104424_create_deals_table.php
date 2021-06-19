@@ -17,16 +17,18 @@ class CreateDealsTable extends Migration
             $table->id();
             $table->string('img')->nullable();
 
-            $table->string('title');
+            $table->string('title',50);
+            $table->string('description',150);
             $table->text('text');
 
             $table->integer('price')->default(0);
 
-            $table->integer('executor_id');
+            $table->integer('executor_id')->nullable();
             $table->integer('author_id');
             $table->integer('status_id');
 
-            $table->timestamp('times');
+            $table->bigInteger('times')->comment("in seconds");
+            $table->timestamp('start_time')->nullable();
             $table->timestamps();
         });
     }

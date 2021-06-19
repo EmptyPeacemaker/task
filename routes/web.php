@@ -35,7 +35,11 @@ Route::middleware(\App\Http\Middleware\LoginRoute::class)->group(function (){
         return back();
     })->name('profile-edit');
 
-    Route::get('deal',[\App\Http\Controllers\DealController::class,'index'])->name('deal');
+    Route::prefix('deal')->group(function (){
+        Route::get('/',[\App\Http\Controllers\DealController::class,'index'])->name('deal.index');
+        Route::get('/{deal}',[\App\Http\Controllers\DealController::class,'show'])->name('deal.show');
+    });
+//    Route::get('deal')->name('deal');
 
 
 });
