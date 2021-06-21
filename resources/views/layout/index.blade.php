@@ -20,6 +20,10 @@
 <div class="container">
     <div class="row justify-content-end">
         @auth
+            @if(\Illuminate\Support\Facades\Auth::user()->role===1 && App\Models\Application::where('executor_id',\Illuminate\Support\Facades\Auth::id())->count()>0)
+            <a href="{{route('application')}}" class="btn m-1 btn-primary col-auto">Предложения <span class="badge bg-secondary">{{App\Models\Application::where('executor_id',\Illuminate\Support\Facades\Auth::id())->count()}}</span></a>
+            @endif
+            <a href="{{route('deal')}}" class="btn m-1 btn-primary col-auto">Задания</a>
             <a href="{{route('profile')}}" class="btn m-1 btn-primary col-auto">Профиль</a>
             <a href="{{route('logout')}}" class="btn m-1 btn-primary col-auto">Выход</a>
         @endauth
@@ -31,8 +35,10 @@
 </div>
 
 @yield('content')
-
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script src="{{asset('js/app.js')}}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 @yield('script')
 </body>
 </html>

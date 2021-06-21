@@ -5,9 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Status extends Model
+class Application extends Model
 {
     use HasFactory;
     protected $guarded=[];
-    public $timestamps=false;
+
+    public function getExecutor()
+    {
+        return $this->hasOne(User::class,'id','executor_id');
+    }
+
 }

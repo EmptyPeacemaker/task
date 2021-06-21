@@ -21,4 +21,9 @@ class User extends Authenticatable
         return $this->hasMany(Deal::class,'executor_id','id');
     }
 
+    public function getApplications()
+    {
+        return $this->hasMany(Application::class,'executor_id','id');
+    }
+
 }

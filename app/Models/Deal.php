@@ -25,4 +25,9 @@ class Deal extends Model
         return $this->hasOne(Status::class,'id','status_id');
     }
 
+    public function getApplications()
+    {
+        return $this->hasMany(Application::class,'deal_id','id');
+    }
+
 }

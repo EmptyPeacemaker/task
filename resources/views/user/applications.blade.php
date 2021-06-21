@@ -1,9 +1,9 @@
 @extends('layout.index')
 @section('title')
-    Главная страница
+    Профиль
 @endsection
 @section('content')
 
-
+    @foreach(Apliva)
 
 @endsection
