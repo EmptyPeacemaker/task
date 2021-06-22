@@ -22,7 +22,9 @@ class ApplicationFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'deal_id'=>null,
+            'executor_id'=>null,
+            'status'=>null
         ];
     }
 }

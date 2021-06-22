@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,6 +10,9 @@ class Deal extends Model
 {
     use HasFactory;
     protected $guarded=[];
+    /**
+     * @var mixed
+     */
 
     public function getAuthor()
     {
@@ -28,6 +32,11 @@ class Deal extends Model
     public function getApplications()
     {
         return $this->hasMany(Application::class,'deal_id','id');
+    }
+
+    public function getTime()
+    {
+        return CarbonInterval::seconds($this->times)->cascade()->locale('ru')->forHumans();
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Application;
 use App\Models\Deal;
 use App\Models\Status;
 use Carbon\Carbon;
@@ -37,11 +38,19 @@ class DatabaseSeeder extends Seeder
         $images=collect(File::files(storage_path('app/public/img')))->map(function ($file){return '/storage/img/'.$file->getFilename();});
 
         $users[2]->pluck('id')->each(function ($id) use ($users,$status,$images) {
-            Deal::factory(50)->make(['author_id'=>$id])->each(function ($deal)use($users,$status,$images){
+            Deal::factory(10)->make(['author_id'=>$id])->each(function ($deal)use($users,$status,$images){
                 $deal->img=$images->random();
-                $deal->executor_id=rand(0,10)>8?null:$users[1]->pluck('id')->random();
-                $deal->status_id=$deal->executor_id?$status->except(0)->random():$status->first();
-                $deal->save();
+                $deal->status_id=$status->random();
+                if ($deal->status_id===1){
+                    $deal->save();
+                    Application::factory(rand(1,count($users[1])))->make(['deal_id'=>$deal->id])->each(function ($apl,$key)use($users){
+                        $apl->executor_id=$users[1]->pluck('id')[$key];
+                        $apl->status=rand(1,3);
+                    });
+                }else{
+                    $deal->executor_id=$users[1]->pluck('id')->random();
+                    $deal->save();
+                }
             });
          });
 

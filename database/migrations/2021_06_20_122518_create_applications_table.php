@@ -17,7 +17,7 @@ class CreateApplicationsTable extends Migration
             $table->id();
             $table->integer('deal_id');
             $table->integer('executor_id');
-            $table->boolean('status')->default(true);
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }

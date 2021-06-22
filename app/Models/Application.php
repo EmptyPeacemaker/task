@@ -15,4 +15,9 @@ class Application extends Model
         return $this->hasOne(User::class,'id','executor_id');
     }
 
+    public function getDeal()
+    {
+        return $this->hasOne(Deal::class,'id','deal_id');
+    }
+
 }

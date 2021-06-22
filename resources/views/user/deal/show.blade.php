@@ -5,29 +5,27 @@
 @section('content')
     <div class="card text-center">
         <div class="card-header">
-            <nav>
-                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <div class="btn nav-link" id="nav-short-tab" data-bs-toggle="tab" data-bs-target="#nav-short"
-                         role="tab" aria-controls="nav-short">Кратко
-                    </div>
-                    <div class="btn nav-link " id="nav-description-tab" data-bs-toggle="tab"
-                         data-bs-target="#nav-description"
-                         role="tab" aria-controls="nav-description">Подробное описание
-                    </div>
-                    @if(\Illuminate\Support\Facades\Auth::user()->role===2)
-                        @if($deal->executor_id===null)
-                            <div class="btn nav-link" id="nav-edit-tab" data-bs-toggle="tab"
-                                 data-bs-target="#nav-edit"
-                                 role="tab" aria-controls="nav-edit">Редактирование
-                            </div>
-                        @endif
-                        <div class="btn nav-link active" id="nav-executor-tab" data-bs-toggle="tab"
-                             data-bs-target="#nav-executor"
-                             role="tab" aria-controls="nav-executor">Исполнитель
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <div class="btn nav-link" id="nav-short-tab" data-bs-toggle="tab" data-bs-target="#nav-short"
+                     role="tab" aria-controls="nav-short">Кратко
+                </div>
+                <div class="btn nav-link " id="nav-description-tab" data-bs-toggle="tab"
+                     data-bs-target="#nav-description"
+                     role="tab" aria-controls="nav-description">Подробное описание
+                </div>
+                @if(\Illuminate\Support\Facades\Auth::user()->role===2)
+                    @if($deal->executor_id===null)
+                        <div class="btn nav-link" id="nav-edit-tab" data-bs-toggle="tab"
+                             data-bs-target="#nav-edit"
+                             role="tab" aria-controls="nav-edit">Редактирование
                         </div>
                     @endif
-                </div>
-            </nav>
+                    <div class="btn nav-link active" id="nav-executor-tab" data-bs-toggle="tab"
+                         data-bs-target="#nav-executor"
+                         role="tab" aria-controls="nav-executor">Исполнитель
+                    </div>
+                @endif
+            </div>
         </div>
         <div class="card-body">
             <div class="tab-content text-start" id="nav-tabContent">
@@ -37,14 +35,17 @@
                 <div class="tab-pane fade" id="nav-description" role="tabpanel" aria-labelledby="nav-description-tab">
                     @include('user.deal.module.description')
                 </div>
-                @if($deal->executor_id===null)
-                <div class="tab-pane fade" id="nav-edit" role="tabpanel" aria-labelledby="nav-edit-tab">
-                    @include('user.deal.module.edit')
-                </div>
+                @if($deal->author_id==\Illuminate\Support\Facades\Auth::id())
+                    @if($deal->executor_id===null)
+                        <div class="tab-pane fade" id="nav-edit" role="tabpanel" aria-labelledby="nav-edit-tab">
+                            @include('user.deal.module.edit')
+                        </div>
+                    @endif
+                    <div class="tab-pane fade show active" id="nav-executor" role="tabpanel"
+                         aria-labelledby="nav-executor-tab">
+                        @include('user.deal.module.executor')
+                    </div>
                 @endif
-                <div class="tab-pane fade show active" id="nav-executor" role="tabpanel" aria-labelledby="nav-executor-tab">
-                    @include('user.deal.module.executor')
-                </div>
             </div>
         </div>
     </div>

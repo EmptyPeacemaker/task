@@ -1,4 +1,4 @@
-<img src="{{$deal->img}}" class="rounded float-end" style="max-width: 50%" alt="...">
+<img src="{{$deal->img??'/img/none.png'}}" class="rounded float-end" style="max-width: 50%" alt="...">
 <h3>{{$deal->title}}</h3>
 <div>{{$deal->description}}</div>
 <hr>

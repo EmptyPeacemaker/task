@@ -15,8 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::view('/', 'home')->name('home');
-Route::get('test', function () {
-    \Illuminate\Support\Facades\Auth::loginUsingId(1);
+Route::get('test/{id?}', function ($id=1) {
+    \Illuminate\Support\Facades\Auth::loginUsingId($id);
+    return back();
 });
 Route::middleware(\App\Http\Middleware\LoginRoute::class)->group(function () {
     Route::prefix('register')->group(function () {
@@ -38,11 +39,20 @@ Route::middleware(\App\Http\Middleware\LoginRoute::class)->group(function () {
     })->name('profile-edit');
 
     Route::prefix('application')->group(function (){
-        Route::view('/','user.applications')->name('application');
+        Route::get('/',[\App\Http\Controllers\ApplicationController::class, 'index'])->name('application');
         Route::post('add',[\App\Http\Controllers\ApplicationController::class, 'addApplication'])->name('application.add');
         Route::get('delete/{application}',[\App\Http\Controllers\ApplicationController::class, 'delete'])->name('application.delete');
+        Route::prefix('send/{application}')->group(function (){
+            Route::get('accept',[\App\Http\Controllers\ApplicationController::class, 'accept'])->name('application.send.accept');
+            Route::get('refuse',[\App\Http\Controllers\ApplicationController::class, 'refuse'])->name('application.send.refuse');
+            Route::get('select/{user}',[\App\Http\Controllers\ApplicationController::class, 'select'])->name('application.select');
+        });
     });
     Route::prefix('deal')->group(function () {
+        Route::get('ready/{deal}',[\App\Http\Controllers\DealController::class, 'ready'])->name('deal.ready');
+        Route::get('delete/{deal}',[\App\Http\Controllers\DealController::class, 'delete'])->name('deal.delete');
+        Route::post('create',[\App\Http\Controllers\DealController::class, 'create'])->name('deal.create');
+        Route::get('new-deal',[\App\Http\Controllers\DealController::class, 'newDeal'])->name('deal.add');
         Route::post('deal-save', [\App\Http\Controllers\DealController::class, 'save'])->name('deal.save');
         Route::get('/', [\App\Http\Controllers\DealController::class, 'index'])->name('deal');
         Route::get('/{deal}', [\App\Http\Controllers\DealController::class, 'show'])->name('deal.show');

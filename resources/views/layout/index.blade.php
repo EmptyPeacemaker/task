@@ -20,8 +20,15 @@
 <div class="container">
     <div class="row justify-content-end">
         @auth
-            @if(\Illuminate\Support\Facades\Auth::user()->role===1 && App\Models\Application::where('executor_id',\Illuminate\Support\Facades\Auth::id())->count()>0)
-            <a href="{{route('application')}}" class="btn m-1 btn-primary col-auto">Предложения <span class="badge bg-secondary">{{App\Models\Application::where('executor_id',\Illuminate\Support\Facades\Auth::id())->count()}}</span></a>
+            <?php
+            $applications = \Illuminate\Support\Facades\Auth::user()->getApplications;
+            ?>
+            @if(\Illuminate\Support\Facades\Auth::user()->role===1 && $applications->count()>0)
+                <a href="{{route('application')}}" class="btn m-1 btn-primary col-auto">Предложения
+                    @if($applications->where('status',1)->count())<span
+                        class="badge bg-secondary">{{$applications->where('status',1)->count()}}</span>
+                    @endif
+                </a>
             @endif
             <a href="{{route('deal')}}" class="btn m-1 btn-primary col-auto">Задания</a>
             <a href="{{route('profile')}}" class="btn m-1 btn-primary col-auto">Профиль</a>
